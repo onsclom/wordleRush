@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>wordle rush</title>
+    <script type="module" src="index.mjs"></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: monospace;
+        font-size: 1.0rem;
+      }
+
+      main {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        max-width: 32rem;
+        margin: auto;
+      }
+
+      #keyboard {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        height: 200px;
+        justify-self: end;
+        font-size: .7rem;
+      }
+
+      .keyboardRow {
+        justify-content: center;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+      }
+
+      .keyboardButton {
+        box-sizing: border-box;
+        margin: 0.25%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 10%;
+        text-align: center;
+        border: solid black 1px;
+      }
+
+      .specialKeyboardButton {
+        flex-grow: 1;
+      }
+
+      #grid {
+        flex-grow: 1;
+      }
+
+      #header {
+        display: flex;
+        align-items: center;
+        width: 100%;
+      }
+
+      #header h1 {
+        box-sizing: border-box;
+        text-align: center;
+        margin: .5rem;
+        font-size:1.5rem;
+        padding: 0;
+      }
+
+      #header p {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-size: 1.5rem;
+        margin: 0.25%;
+      }
+
+      #header div {
+        display: flex;
+        margin: .1rem;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid black;
+        width: 50px;
+        height: 50px;
+      }
+
+      .gridHolder {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+      }
+
+      #grid {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        max-width: 350px;
+        max-height: 420px;
+      }
+
+      .gridRow {
+        display: flex;
+        width: 100%;
+        margin: 5px 0;
+        height: 100%;
+        flex-direction: row;
+      }
+
+      .rowSquare {
+        width: 100%;
+        height: 100%;
+        margin: 0.5%;
+        border: 1px solid black;
+      }
+
+      .instructionHolder {
+        box-sizing: border-box;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        max-width: 32rem;
+        background-color: rgba(0,0,0,.5);
+      }
+
+      .instructionHolder .content {
+        box-sizing: border-box;
+        padding: 1rem;
+        background-color: #f9f9f9;
+        border: 1px solid black;
+        max-width: 30rem;
+        margin: 2rem;
+      }
+
+      .hide {
+        display:none;
+      }
+
+      .clickable {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="instructionHolder" id="instructions">
+        <div class="content">
+          <h2 style="text-align: center;">How it works:</h2>
+          <ul>
+            <li>All wordle rules carry over</li>
+            <li>You only have 5 minutes</li>
+            <li>+1 point for every green letter</li>
+            <li>Round ends on failed world or timeout</li>
+            <li>Time starts after first guess</li>
+          </ul>
+        </div>
+      </div>
+      <div id="header">
+        <div id="?" class="clickable">?</div>
+        <h1>Wrushle</h1>
+        <!-- <p>0 - 5:00</p> -->
+      </div>
+      <div class="gridHolder">
+        <div id="grid"></div>
+      </div>
+
+      <div id="keyboard"></div>
+    </main>
+  </body>
+</html>
