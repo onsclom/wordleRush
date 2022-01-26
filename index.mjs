@@ -16,7 +16,7 @@ function makeKeyboard() {
 
     for (let letter of row) {
       let keyboardButton = document.createElement("div");
-      keyboardButton.classList.add("keyboardButton");
+      keyboardButton.classList.add("keyboardButton", "clickable");
 
       if (letter == "!") {
         letter = "BACK";
@@ -50,18 +50,15 @@ function makeGrid() {
     for (let j = 0; j < wordSize; j++) {
       let rowSquare = document.createElement("div");
       rowSquare.classList.add("rowSquare");
+      rowSquare.id = `${i},${j}`
       rowDiv.appendChild(rowSquare);
     }
     gridDiv.appendChild(rowDiv);
   }
 }
 
-makeKeyboard();
-makeGrid();
-
-
 /*
-  Hook up click events
+Hook up click events
 */
 
 const instructions = document.getElementById("instructions");
@@ -74,3 +71,20 @@ instructions.onclick = () => {
 instructionButton.onclick = () => {
   instructions.classList.toggle("hide");
 }
+
+/*
+Dynamically resize text grid
+*/
+
+const grid = document.getElementById("grid")
+grid.style.width = Math.min( grid.parentElement.clientWidth, grid.parentElement.clientHeight ).toString()+"px"
+grid.style.height = Math.min( grid.parentElement.clientWidth, grid.parentElement.clientHeight ).toString()+"px"
+window.onresize = () => {
+  grid.style.display = "none"
+  grid.style.width = Math.min( grid.parentElement.clientWidth, grid.parentElement.clientHeight ).toString()+"px"
+  grid.style.height = Math.min( grid.parentElement.clientWidth, grid.parentElement.clientHeight ).toString()+"px"
+  grid.style.display = "flex"
+}
+
+makeKeyboard();
+makeGrid();
