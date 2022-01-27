@@ -125,7 +125,11 @@
         width: 100%;
         height: 100%;
         margin: .5%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border: 1px solid black;
+        font-size: 1rem;
       }
 
       .instructionHolder {
@@ -156,11 +160,25 @@
       .clickable {
         cursor: pointer;
       }
+
+      .black {
+        border: 2px solid black;
+      }
+
+      .yellow {
+        border: 2px solid black;
+        background-color: #ffff88;
+      }
+
+      .green {
+        border: 2px solid black;
+        background-color: #88ff88;
+      }
     </style>
   </head>
   <body>
     <main>
-      <div class="instructionHolder" id="instructions">
+      <div class="instructionHolder hide" id="instructions">
         <div class="content">
           <h2 style="text-align: center;">How it works:</h2>
           <ul>
