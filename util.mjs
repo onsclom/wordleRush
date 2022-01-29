@@ -119,9 +119,10 @@ export function showInstructions() {
 }
 
 export function seededRandom(seed) {
-  let count = 1;
+  let count=0
   seed.split("").forEach(element => {
-    count += (element.charCodeAt(0)*count)%10000
+    count += (element.charCodeAt(0))
+    count %= 1000
   });
   let x = Math.sin(count) * 10000;
   return x - Math.floor(x);
