@@ -122,9 +122,9 @@ export function seededRandom(seed) {
   let count=0
   seed.split("").forEach(element => {
     count += (element.charCodeAt(0))
-    count %= 69
+    count %= 69420
   });
-  let x = Math.sin(count) * 42069;
+  let x = Math.sin(count) * 123420;
   return x - Math.floor(x);
 }
 
