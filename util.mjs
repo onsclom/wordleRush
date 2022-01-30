@@ -20,8 +20,8 @@ export function makeKeyboard(keyPressed) {
       keyboardButton.classList.add("keyboardButton", "clickable");
 
       if (letter == "!") {
-        letter = "BACK";
-        if (specialCount) letter = "ENTER";
+        letter = "ENTER";
+        if (specialCount) letter = "BACK";
         specialCount += 1;
         keyboardButton.classList.add("keyboardButton");
         keyboardButton.classList.add("specialKeyboardButton");
