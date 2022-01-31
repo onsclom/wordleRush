@@ -4,39 +4,56 @@
 	import Keyboard from './Keyboard.svelte'
 	import Instructions from './Instructions.svelte'
 	import Results from './Results.svelte'
-	export let name: string;
+
+	class WrushleGame {
+		curTimeStamp: number
+		currentGrid: string[][]
+		results: Results
+
+		//gameStats
+		gameEndTime: number
+
+		constructor() {
+			this.curTimeStamp = new Date().getMilliseconds()
+			this.currentGrid = []
+			for (let y = 0; y<6; y++) {
+				let curRow: string[] = []
+				for (let x = 0; x<5; x++)
+					curRow.push("")
+				this.currentGrid.push(curRow)
+			}
+			//this.results = new Results()
+		}
+	}
+
+	let game = new WrushleGame()
+	let browserStorage = JSON.parse( window.localStorage.getItem("game") ) as WrushleGame
+	// if game already played today
+	if ( browserStorage && new Date(browserStorage.curTimeStamp).toDateString() ==  new Date().toDateString() )
+		// load current day
+		game = browserStorage	
+
+	console.log(game)
 </script>
 
 <main>
 	<Header/>
-	<Grid/>
+	<Grid grid={game.currentGrid}/>
 	<Keyboard/>
 
 	<Instructions/>
 	<Results/>
-
-	<h1>Hello {name}!</h1>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 </main>
 
 <style>
 	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-
-	h1 {
-		color: #ff3e00;
-		text-transform: uppercase;
-		font-size: 4em;
-		font-weight: 100;
-	}
-
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+		max-width: 500px;
+		margin: auto;
+		justify-content: space-between;
 	}
 </style>
