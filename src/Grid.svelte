@@ -2,36 +2,42 @@
   export let grid: string[][]
 </script>
 
-<div class="gridHolder">
-  <div class="grid">
-    {#each grid as row}
-    <div class="gridRow">
-      {#each row as letter}
-        <div class="box">
-          {letter}
-        </div>
+  <div class="holder">
+    <div class="grid">
+      {#each grid as row}
+        {#each row as letter}
+          <div class="box">
+            {letter}
+          </div>
+        {/each}
       {/each}
     </div>
-    {/each}
   </div>
-</div>
 
 <style>
-  .gridHolder {
+  .holder {
+    max-height: 480px;
+    justify-self: center;
     display: flex;
     flex-grow: 1;
-    /* aspect-ratio: 1/1; */
-
+    justify-content: center;
   }
   .grid {
-    display: flex;
     flex-grow: 1;
-    flex-direction: column;
-  }
-  
-  .gridRow {
-    display: flex;
-    flex-grow: 1;
+    margin: .5rem;
+    max-height: 480px;
+    max-width: 400px;
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr; 
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr; 
+    gap: 0px 0px; 
+    grid-template-areas: 
+      ". . . . ."
+      ". . . . ."
+      ". . . . ."
+      ". . . . ."
+      ". . . . ."
+      ". . . . ."; 
   }
   
   .box {

@@ -33,5 +33,9 @@
     margin: 6px;
     font-size: 1.5em;
   }
+
+  button {
+    padding: 0rem 1rem;
+  }
   
 </style>
