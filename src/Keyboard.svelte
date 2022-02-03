@@ -1,4 +1,6 @@
 <script lang="ts">
+import { createEventDispatcher } from "svelte";
+
   class Key {
     letter: string;
     functionality: boolean;
@@ -15,9 +17,20 @@
   for (const row of keyboardLetters) {
     let curRow = [];
     for (const letter of row) {
-      curRow.push( new Key(letter.toUpperCase(), false) )
+      if (letter == "<") {
+        curRow.push( new Key("ENTER", true) )
+      }
+      else if (letter == ">") 
+        curRow.push( new Key("←", true ) )
+      else 
+        curRow.push( new Key(letter.toUpperCase(), false) )
     }
     keys.push(curRow)
+  }
+
+  const dispatch = createEventDispatcher();
+  function keyPressed(letter: string) {
+    dispatch("keyPress", {letter})
   }
 
 </script>
@@ -26,7 +39,7 @@
   {#each keys as row}
     <div class="keyboardRow">
       {#each row as Key}
-        <button class="keyboardKey">
+        <button class="keyboardKey" class:wide={Key.functionality} on:click={()=>{keyPressed(Key.letter)}}>
           {Key.letter}
         </button>
       {/each}
@@ -35,6 +48,10 @@
 </div>
 
 <style>
+
+  .wide {
+    flex-grow: 1;
+  }
   .keyboard {
     display:flex;
     flex-direction: column;

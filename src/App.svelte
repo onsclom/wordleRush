@@ -34,12 +34,16 @@
 		game = browserStorage	
 
 	console.log(game)
+
+	function virtualKeyPressed(event) {
+		console.log(event.detail.letter)
+	}
 </script>
 
 <main>
 	<Header/>
-	<Grid grid={game.currentGrid}/>
-	<Keyboard/>
+	<Grid grid={game.currentGrid} />
+	<Keyboard on:keyPress={virtualKeyPressed} />
 
 	<Instructions/>
 	<Results/>
