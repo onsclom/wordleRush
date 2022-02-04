@@ -35,15 +35,15 @@
 
 	console.log(game)
 
-	function virtualKeyPressed(event) {
-		console.log(event.detail.letter)
+	function handleKeyPressed(event) {
+		console.log(event.detail)
 	}
 </script>
 
 <main>
 	<Header/>
 	<Grid grid={game.currentGrid} />
-	<Keyboard on:keyPress={virtualKeyPressed} />
+	<Keyboard on:keyPress={handleKeyPressed} />
 
 	<Instructions/>
 	<Results/>
@@ -59,5 +59,6 @@
 		max-width: 500px;
 		margin: auto;
 		justify-content: space-between;
+		overflow: hidden;
 	}
 </style>

@@ -1,59 +1,56 @@
 <script lang="ts">
-import { createEventDispatcher } from "svelte";
-
-  class Key {
-    letter: string;
+  import Key from "./Key.svelte";
+  import { createEventDispatcher } from "svelte";
+  
+  class KeyData {
+    label: string;
+    key: string;
     functionality: boolean;
-    constructor(letter: string, functionality: boolean) {
-      this.letter = letter;
+    clicked: boolean;
+    constructor(label: string, functionality: boolean) {
+      this.label = label;
+      this.key = label;
       this.functionality = functionality;
     }
   }
-
+  
   let keyboardLetters = ["qwertyuiop", "asdfghjkl", "<zxcvbnm>"];
-
-  let keys: Key[][] = [];
-
-  for (const row of keyboardLetters) {
-    let curRow = [];
-    for (const letter of row) {
-      if (letter == "<") {
-        curRow.push( new Key("ENTER", true) )
+    let keys: KeyData[][] = [];
+    let keyToData: { [key: string]: KeyData } = {};
+    
+    for (const row of keyboardLetters) {
+      let curRow = [];
+      for (const letter of row) {
+        let curKey: KeyData;
+        if (letter == "<") curKey = new KeyData("ENTER", true);
+        else if (letter == ">") curKey = new KeyData("←", true);
+        else curKey = new KeyData(letter.toUpperCase(), false);
+        curRow.push(curKey);
       }
-      else if (letter == ">") 
-        curRow.push( new Key("←", true ) )
-      else 
-        curRow.push( new Key(letter.toUpperCase(), false) )
+      keys.push(curRow);
     }
-    keys.push(curRow)
-  }
 
-  const dispatch = createEventDispatcher();
-  function keyPressed(letter: string) {
-    dispatch("keyPress", {letter})
-  }
-
+    const dispatch = createEventDispatcher();
+    function handlePress(event) {
+      dispatch("keyPress", {
+        key: event.detail,
+      });
+    }
 </script>
 
 <div class="keyboard">
   {#each keys as row}
     <div class="keyboardRow">
-      {#each row as Key}
-        <button class="keyboardKey" class:wide={Key.functionality} on:click={()=>{keyPressed(Key.letter)}}>
-          {Key.letter}
-        </button>
+      {#each row as keyData}
+        <Key label={keyData.label} special={keyData.functionality} key={keyData.key} on:keyPress={handlePress}/>
       {/each}
     </div>
   {/each}
 </div>
 
 <style>
-
-  .wide {
-    flex-grow: 1;
-  }
   .keyboard {
-    display:flex;
+    display: flex;
     flex-direction: column;
     height: 200px;
   }
@@ -62,15 +59,6 @@ import { createEventDispatcher } from "svelte";
     flex-grow: 1;
     display: flex;
     align-items: stretch;
-    justify-content:center
-  }
-
-  .keyboardKey {
-    display: block;
-    box-sizing: border-box;
-    padding: 0;
-    /* important to do math with margin here */
-    margin: .2%;
-    width: 9.6%;
+    justify-content: center;
   }
 </style>
