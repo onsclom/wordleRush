@@ -1,6 +1,8 @@
 <script lang="ts">
+  import type { Color } from './WrushleGame'
 
   export let grid: string[][];
+  export let colors: Color[][];
 </script>
 
 <div class="holder">
@@ -40,8 +42,10 @@
       ". . . . ."
       ". . . . .";
   }
-
   .box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-grow: 1;
     margin: 2px;
     border: 1px solid var(--main-text-color);
