@@ -1,16 +1,18 @@
 <script lang="ts">
-  import type { Color } from './WrushleGame'
+  import type { Color, Animation, GridSquare } from './WrushleGame'
 
-  export let grid: string[][];
-  export let colors: Color[][];
+  export let grid: GridSquare[][];
+
+  //really this should just get grid data..
+  
 </script>
 
 <div class="holder">
   <div class="grid">
     {#each grid as row}
-      {#each row as letter}
-        <div class="box">
-          {letter}
+      {#each row as gridSquare}
+        <div class="box" >
+          {gridSquare.letter}
         </div>
       {/each}
     {/each}
@@ -27,7 +29,7 @@
   }
   .grid {
     flex-grow: 1;
-    margin: 0.5rem;
+    margin: 4px;
     max-height: 480px;
     max-width: 400px;
     display: grid;
@@ -49,5 +51,39 @@
     flex-grow: 1;
     margin: 2px;
     border: 1px solid var(--main-text-color);
+    /* box-shadow: 3px 3px 0px 0px var(--intermediate-color) */
+    animation-duration: 1s;
   }
+
+  @keyframes wiggle {
+		0% {
+			transform: rotate(0deg);
+		}
+		20% {
+			transform: rotate(-15deg);
+		}
+		40% {
+			transform: rotate(15deg);
+		}
+		60% {
+			transform: rotate(-7deg);
+		}
+		80% {
+			transform: rotate(7deg);
+		}
+		90% {
+			transform: rotate(-3deg);
+		}
+		95% {
+			transform: rotate(2deg);
+		}
+		100% {
+			transform: rotate(0deg);
+		}
+	}
+
+  .wiggle {
+		animation-name: wiggle;
+		animation-play-state: running;
+	}
 </style>

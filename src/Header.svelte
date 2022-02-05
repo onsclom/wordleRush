@@ -21,21 +21,21 @@
   }
   .headerFlex {
     justify-content:space-between;
+    border-bottom: 1px solid var(--main-text-color);
   }
-
   .end {
     display:block;
     justify-self:flex-end;
   }
-
   h1 {
     padding: 0;
     margin: 6px;
     font-size: 1.5em;
   }
-
   button {
     padding: 0rem 1rem;
+    border: 0;
+    border-left: 1px solid var(--main-text-color);
   }
-  
+
 </style>

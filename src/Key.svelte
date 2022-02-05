@@ -8,16 +8,16 @@
   let pressed = false;
 
   function handleKeydown(event) {
-    if (event.key == key.toLowerCase()) {
-      console.log(`down: ${key}`);
+    if (event.key.toLowerCase() == key.toLowerCase()
+      || key == "←" && event.key == "Backspace") {
       keyPressed(key);
       pressed = true;
     }
   }
 
   function handleKeyup(event) {
-    if (event.key == key.toLowerCase()) {
-      console.log(`up: ${key}`);
+    if (event.key.toLowerCase() == key.toLowerCase()
+      || key == "←" && event.key == "Backspace") {
       pressed = false;
     }
   }
@@ -51,6 +51,10 @@
     margin: 0.2%;
     width: 9.6%;
     transition: transform 0.1s ease;
+
+    border-radius: 5px;
+    background-color: var(--main-bg-color);
+    color: var(--main-text-color);
   }
 
   .wide {

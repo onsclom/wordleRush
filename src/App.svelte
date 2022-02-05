@@ -16,13 +16,14 @@
 	console.log(game)
 
 	function handleKeyPressed(event) {
-		console.log(event.detail)
+		game.handleInput(event.detail.key)
+		game=game
 	}
 </script>
 
 <main>
 	<Header/>
-	<Grid grid={game.grid.letters} colors={game.grid.colors}/>
+	<Grid grid={game.grid}/>
 	<Keyboard on:keyPress={handleKeyPressed} />
 
 	<Instructions/>

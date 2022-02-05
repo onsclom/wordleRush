@@ -32,9 +32,7 @@
 
     const dispatch = createEventDispatcher();
     function handlePress(event) {
-      dispatch("keyPress", {
-        key: event.detail,
-      });
+      dispatch("keyPress", event.detail);
     }
 </script>
 
@@ -53,6 +51,8 @@
     display: flex;
     flex-direction: column;
     height: 200px;
+    /* background-color: var(--main-text-color); */
+    padding: .1rem;
   }
 
   .keyboardRow {

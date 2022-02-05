@@ -3,11 +3,12 @@
 :root {
 	--main-bg-color: black;
 	--main-text-color: white;
+	--intermediate-color: #444;
 }
 
 html,
 body {
-	background-color: var(--main-bg-color);
+	background-color: var(--intermediate-color);
   margin: 0;
 	padding: 0;
   width: 100%;
@@ -25,4 +26,8 @@ button {
 	padding: 1rem;
 	cursor: pointer;
 	color: var(--main-text-color)
+}
+
+main {
+	background-color: var(--main-bg-color);
 }
