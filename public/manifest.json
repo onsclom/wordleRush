@@ -1,0 +1,32 @@
+{
+  "theme_color" : "#111",
+  "background_color" : "#111",
+  "display" : "standalone",
+  "scope" : "/",
+  "start_url" : "/",
+  "name" : "Wrushle",
+  "short_name" : "Wrushle",
+  "description" : "a timed, high-score variant of wordle",
+  "icons": [
+    {
+    "src": "./icon-192x192.png",
+    "type": "image/png",
+    "sizes": "192x192"
+    },
+    {
+    "src": "./icon-256x256.png",
+    "type": "image/png",
+    "sizes": "256x256"
+    },
+     {
+    "src": "./icon-384x384.png",
+    "type": "image/png",
+    "sizes": "384x384"
+    },
+    {
+    "src": "./icon-512x512.png",
+    "type": "image/png",
+    "sizes": "512x512"
+    }
+  ]
+}
