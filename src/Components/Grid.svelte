@@ -1,15 +1,23 @@
 <script lang="ts">
   import Box from "./Box.svelte"
-  import type { Color, Animation, GridSquare } from "../WrushleGame";
+  import type { Color, Animation, GridSquare, Vector2 } from "../WrushleGame";
 
   export let grid: GridSquare[][];
-
+  export let gridCursor: Vector2;
   export let boxes: Box[] = []
   
-  export function animate(animation: Animation, rowNum: number = 0) {
+  export function animateRow(animation: Animation, rowNum: number = 0) {
     for (let i=rowNum*5; i<rowNum*5+5; i++) {
       boxes[i].animate(animation)
     }
+  }
+
+  export function animation(animation: Animation, columnNum: number=0, rowNum: number = 0) {
+    boxes[5*rowNum+columnNum].animate(animation)
+  }
+
+  function isSelected(x: number,y: number ): boolean {
+    return gridCursor.x == x && gridCursor.y == y
   }
 </script>
 
@@ -20,7 +28,7 @@
         <!-- <div class="box" class:wiggle={gridSquare.animation==Animation.Wiggle}>
           {gridSquare.letter}
         </div> -->
-        <Box letter={gridSquare.letter} animationDelay={x*.05} color={gridSquare.color} bind:this={ boxes[y*5+x] }  />
+        <Box selected={ gridCursor.x == x && gridCursor.y == y } letter={gridSquare.letter} animationDelay={"col"+String(x)} color={gridSquare.color} bind:this={ boxes[y*5+x] }  />
       {/each}
     {/each}
   </div>

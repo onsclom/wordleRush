@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+  import { onMount } from "svelte";
 
   import WrushleGame from "./WrushleGame";
   import Header from "./Components/Header.svelte";
@@ -7,6 +7,8 @@
   import Keyboard from "./Components/Keyboard.svelte";
   import Instructions from "./Components/Instructions.svelte";
   import Results from "./Components/Results.svelte";
+
+  let showInstructions: boolean = false;
 
   let game = new WrushleGame();
   let gridComponent: Grid;
@@ -29,18 +31,21 @@
     game = game;
   }
 
-	// add components once done loading
-	onMount( () => {
-		game.gridComponent=gridComponent
-	} )
+  // add components once done loading
+  onMount(() => {
+    game.gridComponent = gridComponent;
+    showInstructions = true
+  });
 </script>
 
 <main>
-  <Header />
-  <Grid grid={game.grid} bind:this={gridComponent} />
+  {#if showInstructions}
+    <Instructions on:exit={()=>{showInstructions=false}} />
+  {/if}
+  <Header on:showInstructions={()=>{showInstructions=true}}/>
+  <Grid gridCursor={game.gridCursor} grid={game.grid} bind:this={gridComponent} />
   <Keyboard on:keyPress={handleKeyPressed} />
-
-  <Instructions />
+  
   <Results />
 </main>
 
@@ -55,6 +60,6 @@
     margin: auto;
     justify-content: space-between;
     overflow-y: hidden;
-		overflow-x: hidden;
+    overflow-x: hidden;
   }
 </style>

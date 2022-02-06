@@ -1,17 +1,20 @@
 <script lang="ts">
-  function wow(): void {
-    console.log("HI")
-  }
+	import { createEventDispatcher } from 'svelte';
 
+  const dispatch = createEventDispatcher();
+
+  function showInstructions() {
+    dispatch('showInstructions', {});
+  }
 </script>
 
 <div class="headerFlex">
   <div>
     <h1>
-      Wrushle
+      WRUSHLE
     </h1>
   </div>
-  <button class="end" on:click={wow}>?</button>
+  <button class="end" on:click={showInstructions}>?</button>
 </div>
 
 <style>
@@ -27,11 +30,6 @@
   .end {
     display:block;
     justify-self:flex-end;
-  }
-  h1 {
-    padding: 0;
-    margin: 6px;
-    font-size: 1.5em;
   }
   button {
     padding: 0rem 1rem;

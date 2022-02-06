@@ -11,10 +11,11 @@ export enum Color {
 export enum Animation {
   None = "none",
   Wiggle = "wiggle",
-  Enter = "enter"
+  Enter = "enter",
+  TextEnter = "textEnter"
 }
 
-interface Vector2 {
+export interface Vector2 {
   x: number
   y: number
 }
@@ -86,14 +87,17 @@ export default class WrushleGame {
       if (gridCursor.x > 0) {
         gridCursor.x -= 1
         this.grid[gridCursor.y][gridCursor.x].letter = ""
+        this.gridComponent.animation( Animation.TextEnter, gridCursor.x, gridCursor.y)
       }
     }
     else {
       if (gridCursor.x < 5) {
         this.grid[gridCursor.y][gridCursor.x].letter = input
+        this.gridComponent.animation( Animation.TextEnter, gridCursor.x, gridCursor.y)
         gridCursor.x += 1
       }
     }
+    this.gridCursor=this.gridCursor
   }
 
   private getCurWord(): string {
@@ -125,14 +129,14 @@ export default class WrushleGame {
     if ( isLegalWord(curWord) ) {
       console.log("LEGAL")
       this.gradeLine()
-      this.gridComponent.animate( Animation.Enter, gridCursor.y )
+      this.gridComponent.animateRow( Animation.Enter, gridCursor.y )
       this.gridCursor = {x: 0, y: gridCursor.y+1}
     } else {
       // shake that grid part?
       console.log("ILLEGAL")
       //shakeRow( this.grid[gridCursor.y])
 
-      this.gridComponent.animate( Animation.Wiggle, gridCursor.y )
+      this.gridComponent.animateRow( Animation.Wiggle, gridCursor.y )
     }
   }
 
