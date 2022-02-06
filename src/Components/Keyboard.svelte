@@ -1,6 +1,9 @@
 <script lang="ts">
   import Key from "./Key.svelte";
   import { createEventDispatcher } from "svelte";
+  import type { Color } from "../types";
+
+  export let keyColors: { [letter:string]: Color }
   
   class KeyData {
     label: string;
@@ -40,7 +43,7 @@
   {#each keys as row}
     <div class="keyboardRow">
       {#each row as keyData}
-        <Key label={keyData.label} special={keyData.functionality} key={keyData.key} on:keyPress={handlePress}/>
+        <Key color="{keyColors[keyData.label]}" label={keyData.label} special={keyData.functionality} key={keyData.key} on:keyPress={handlePress}/>
       {/each}
     </div>
   {/each}

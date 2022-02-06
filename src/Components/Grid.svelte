@@ -1,6 +1,7 @@
 <script lang="ts">
   import Box from "./Box.svelte"
-  import type { Color, Animation, GridSquare, Vector2 } from "../WrushleGame";
+  import type { Animation } from "../types";
+  import type { GridSquare, Vector2 } from "../WrushleGame"
 
   export let grid: GridSquare[][];
   export let gridCursor: Vector2;

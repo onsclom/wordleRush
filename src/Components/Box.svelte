@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Animation, Color } from "../WrushleGame";
+  import { Animation, Color } from "../types";
 
   export let animation: string = "";
   export let color: Color
@@ -84,22 +84,6 @@
     animation-name: enter;
     animation-play-state: running;
   }
-
-  .blank {
-  }
-  
-  .green {
-    background-color: #8f8;
-  }
-  
-  .yellow {
-    background-color: #ff4;
-  }
-  
-  .black {
-    background-color: #bbb;
-  }
-
   .selected {
     border: 2px solid var(--main-text-color);
   }

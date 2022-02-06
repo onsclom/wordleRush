@@ -1,6 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import type { Color } from "../types";
 
+  export let color: Color;
   export let label: string;
   export let key: string;
   export let special: boolean;
@@ -8,16 +10,20 @@
   let pressed = false;
 
   function handleKeydown(event) {
-    if (event.key.toLowerCase() == key.toLowerCase()
-      || key == "←" && event.key == "Backspace") {
+    if (
+      event.key.toLowerCase() == key.toLowerCase() ||
+      (key == "←" && event.key == "Backspace")
+    ) {
       keyPressed(key);
       pressed = true;
     }
   }
 
   function handleKeyup(event) {
-    if (event.key.toLowerCase() == key.toLowerCase()
-      || key == "←" && event.key == "Backspace") {
+    if (
+      event.key.toLowerCase() == key.toLowerCase() ||
+      (key == "←" && event.key == "Backspace")
+    ) {
       pressed = false;
     }
   }
@@ -32,7 +38,8 @@
 
 <svelte:window on:keydown={handleKeydown} on:keyup={handleKeyup} />
 
-<button
+<div
+  class="{color}"
   class:wide={special}
   class:pressed
   on:click={() => {
@@ -40,11 +47,13 @@
   }}
 >
   {label}
-</button>
+</div>
 
 <style>
-  button {
-    display: block;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-sizing: border-box;
     padding: 0;
     /* important to do math with margin here */
@@ -56,6 +65,8 @@
     border: 1px solid var(--main-text-color);
     background-color: var(--intermediate-color);
     color: var(--main-text-color);
+
+    transition: background-color .5s ease, transform .2 ease;
   }
 
   .wide {

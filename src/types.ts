@@ -1,5 +1,3 @@
-/// <reference types="svelte" />
-
 export enum Color {
   Blank = "blank",
   Black = "black",

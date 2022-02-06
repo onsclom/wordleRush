@@ -1,19 +1,7 @@
-import { tick } from 'svelte';
+
+import { Color, Animation } from "./types"
 import type Grid from "Grid.svelte"
-
-export enum Color {
-  Blank = "blank",
-  Black = "black",
-  Yellow = "yellow",
-  Green = "green"
-}
-
-export enum Animation {
-  None = "none",
-  Wiggle = "wiggle",
-  Enter = "enter",
-  TextEnter = "textEnter"
-}
+import { letterColors } from "./stores"
 
 export interface Vector2 {
   x: number
@@ -58,7 +46,7 @@ export default class WrushleGame {
   gridCursor: Vector2 = {x: 0, y: 0}
   stats: GameStats
 
-  keyColors: { [letter:string]: Color }
+  keyColors: { [letter:string]: Color } = {}
 
   gridComponent: Grid
 
@@ -74,6 +62,10 @@ export default class WrushleGame {
       }
       this.grid.push( gridRow )
     }
+
+    let letters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    for (const letter of letters)
+      this.keyColors[letter] = Color.Blank
   }
 
   handleInput(input: string) {
@@ -112,12 +104,17 @@ export default class WrushleGame {
       console.log(`${curWord} ${this.wordToGuess}`)
       if (curWord[x] == this.wordToGuess[x]) {
         this.grid[this.gridCursor.y][x].color = Color.Green
+        this.keyColors[ curWord[x] ] = Color.Green
       }
       else if ( this.wordToGuess.includes(curWord[x]) ) {
         this.grid[this.gridCursor.y][x].color = Color.Yellow
+        if ( this.keyColors[ curWord[x] ] == Color.Blank )
+          this.keyColors[ curWord[x] ] = Color.Yellow
       }
       else {
         this.grid[this.gridCursor.y][x].color = Color.Black
+        if ( this.keyColors[ curWord[x] ] == Color.Blank )
+          this.keyColors[ curWord[x] ] = Color.Black
       }
     }
   }
@@ -135,7 +132,6 @@ export default class WrushleGame {
       // shake that grid part?
       console.log("ILLEGAL")
       //shakeRow( this.grid[gridCursor.y])
-
       this.gridComponent.animateRow( Animation.Wiggle, gridCursor.y )
     }
   }

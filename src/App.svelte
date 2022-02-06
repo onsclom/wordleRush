@@ -44,7 +44,7 @@
   {/if}
   <Header on:showInstructions={()=>{showInstructions=true}}/>
   <Grid gridCursor={game.gridCursor} grid={game.grid} bind:this={gridComponent} />
-  <Keyboard on:keyPress={handleKeyPressed} />
+  <Keyboard keyColors={game.keyColors} on:keyPress={handleKeyPressed} />
   
   <Results />
 </main>
