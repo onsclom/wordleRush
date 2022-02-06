@@ -1,19 +1,26 @@
 <script lang="ts">
-  import type { Color, Animation, GridSquare } from './WrushleGame'
+  import Box from "./Box.svelte"
+  import type { Color, Animation, GridSquare } from "../WrushleGame";
 
   export let grid: GridSquare[][];
 
-  //really this should just get grid data..
+  export let boxes: Box[] = []
   
+  export function animate(animation: Animation, rowNum: number = 0) {
+    for (let i=rowNum*5; i<rowNum*5+5; i++) {
+      boxes[i].animate(animation)
+    }
+  }
 </script>
 
-<div class="holder">
+<div class="holder" >
   <div class="grid">
-    {#each grid as row}
-      {#each row as gridSquare}
-        <div class="box" >
+    {#each grid as row, y}
+      {#each row as gridSquare, x}
+        <!-- <div class="box" class:wiggle={gridSquare.animation==Animation.Wiggle}>
           {gridSquare.letter}
-        </div>
+        </div> -->
+        <Box letter={gridSquare.letter} animationDelay={x*.05} color={gridSquare.color} bind:this={ boxes[y*5+x] }  />
       {/each}
     {/each}
   </div>
@@ -52,38 +59,7 @@
     margin: 2px;
     border: 1px solid var(--main-text-color);
     /* box-shadow: 3px 3px 0px 0px var(--intermediate-color) */
-    animation-duration: 1s;
+    animation-duration: 0.5s;
+    box-shadow: 0px 10px 5px 5px #11111180;
   }
-
-  @keyframes wiggle {
-		0% {
-			transform: rotate(0deg);
-		}
-		20% {
-			transform: rotate(-15deg);
-		}
-		40% {
-			transform: rotate(15deg);
-		}
-		60% {
-			transform: rotate(-7deg);
-		}
-		80% {
-			transform: rotate(7deg);
-		}
-		90% {
-			transform: rotate(-3deg);
-		}
-		95% {
-			transform: rotate(2deg);
-		}
-		100% {
-			transform: rotate(0deg);
-		}
-	}
-
-  .wiggle {
-		animation-name: wiggle;
-		animation-play-state: running;
-	}
 </style>

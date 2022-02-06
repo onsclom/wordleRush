@@ -1,13 +1,17 @@
+import { tick } from 'svelte';
+import type Grid from "Grid.svelte"
+
 export enum Color {
-  Blank,
-  Black,
-  Yellow,
-  Green
+  Blank = "blank",
+  Black = "black",
+  Yellow = "yellow",
+  Green = "green"
 }
 
 export enum Animation {
-  None,
-  Wiggle
+  None = "none",
+  Wiggle = "wiggle",
+  Enter = "enter"
 }
 
 interface Vector2 {
@@ -55,6 +59,10 @@ export default class WrushleGame {
 
   keyColors: { [letter:string]: Color }
 
+  gridComponent: Grid
+
+  wordToGuess = "PASTA"
+
   constructor() {
     this.timestamp = new Date().getMilliseconds()
     this.grid = []
@@ -88,17 +96,46 @@ export default class WrushleGame {
     }
   }
 
+  private getCurWord(): string {
+    return this.grid[this.gridCursor.y].map( (square) => square.letter ).join("")
+  }
+
+  gradeLine() {
+    const curWord = this.getCurWord();
+
+    for (let x=0; x<5; x++) {
+      console.log("hi")
+      console.log(`${curWord} ${this.wordToGuess}`)
+      if (curWord[x] == this.wordToGuess[x]) {
+        this.grid[this.gridCursor.y][x].color = Color.Green
+      }
+      else if ( this.wordToGuess.includes(curWord[x]) ) {
+        this.grid[this.gridCursor.y][x].color = Color.Yellow
+      }
+      else {
+        this.grid[this.gridCursor.y][x].color = Color.Black
+      }
+    }
+  }
+
   evaluateWord() {
     let gridCursor = this.gridCursor
-    const curWord: string = this.grid[gridCursor.y].map( (square) => square.letter ).join("")
+    const curWord: string = this.getCurWord()
 
     if ( isLegalWord(curWord) ) {
       console.log("LEGAL")
+      this.gradeLine()
+      this.gridComponent.animate( Animation.Enter, gridCursor.y )
+      this.gridCursor = {x: 0, y: gridCursor.y+1}
     } else {
       // shake that grid part?
       console.log("ILLEGAL")
+      //shakeRow( this.grid[gridCursor.y])
+
+      this.gridComponent.animate( Animation.Wiggle, gridCursor.y )
     }
   }
+
 }
 
 // seperating these lines because vs code does not evaluate long code lines

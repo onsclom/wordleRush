@@ -50,10 +50,11 @@
     /* important to do math with margin here */
     margin: 0.2%;
     width: 9.6%;
-    transition: transform 0.1s ease;
+    transition: all 0.1s ease;
 
-    border-radius: 5px;
-    background-color: var(--main-bg-color);
+    /* border-radius: 5px; */
+    border: 1px solid var(--main-text-color);
+    background-color: var(--intermediate-color);
     color: var(--main-text-color);
   }
 
@@ -62,6 +63,7 @@
   }
 
   .pressed {
+    box-shadow: 0px 10px 5px 5px #11111180;
     transform: translate(0, -10px) scale(1.2);
   }
 </style>

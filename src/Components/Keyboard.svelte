@@ -53,6 +53,7 @@
     height: 200px;
     /* background-color: var(--main-text-color); */
     padding: .1rem;
+    
   }
 
   .keyboardRow {

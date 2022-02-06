@@ -1,14 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 :root {
-	--main-bg-color: black;
-	--main-text-color: white;
-	--intermediate-color: #444;
+	--main-bg-color: #efefef;
+	--main-text-color: #111;
+	--intermediate-color:#efefef;
 }
 
 html,
 body {
-	background-color: var(--intermediate-color);
+	background-color: var(--main-text-color);
   margin: 0;
 	padding: 0;
   width: 100%;
@@ -21,7 +21,7 @@ body {
 button {
 	background-color: var(--main-bg-color);
 	font-family: 'Roboto', sans-serif;
-	background: var(--main-bg-color);
+	background: var(--intermediate-color);
 	border: 1px solid var(--main-text-color);
 	padding: 1rem;
 	cursor: pointer;

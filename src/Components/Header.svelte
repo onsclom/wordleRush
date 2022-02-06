@@ -8,7 +8,7 @@
 <div class="headerFlex">
   <div>
     <h1>
-      Wrushle v.9
+      Wrushle
     </h1>
   </div>
   <button class="end" on:click={wow}>?</button>
@@ -18,6 +18,7 @@
   div {
     display: flex;
     height: 2.5em;
+    background-color: var(--intermediate-color);
   }
   .headerFlex {
     justify-content:space-between;
