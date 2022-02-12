@@ -66,7 +66,13 @@
     background-color: var(--intermediate-color);
     color: var(--main-text-color);
 
-    transition: background-color .5s ease, transform .2 ease;
+    transition: background-color .5s, transform .2s;
+
+    cursor: pointer;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
   }
 
   .wide {

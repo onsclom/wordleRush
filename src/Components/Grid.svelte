@@ -13,6 +13,11 @@
     }
   }
 
+  export function animateAll(animation: Animation) {
+    for (let box of boxes)
+      box.animate(animation)
+  }
+
   export function animation(animation: Animation, columnNum: number=0, rowNum: number = 0) {
     boxes[5*rowNum+columnNum].animate(animation)
   }

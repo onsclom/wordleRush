@@ -19,7 +19,7 @@
   </div>
 
   <div class="content">
-    <p>Wrushle is a high-score, time based variant of <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>. If you have not played <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> yet, you should play that first.</p>
+    <p>Wrushle is a timed variant of <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a>. If you have not played <a href="https://www.powerlanguage.co.uk/wordle/">Wordle</a> yet, you should play that first.</p>
     <p>All the rules of Wordle carry over, but with some additions:</p>
     <ul>
       <li>The goal is to get a high score.</li>
@@ -39,6 +39,7 @@
 
 <style>
   .instructionHolder {
+    z-index: 1;
     position: absolute;
     max-width: 500px;
     width: 100%;
