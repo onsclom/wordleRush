@@ -31,9 +31,6 @@
   <div class="grid">
     {#each grid as row, y}
       {#each row as gridSquare, x}
-        <!-- <div class="box" class:wiggle={gridSquare.animation==Animation.Wiggle}>
-          {gridSquare.letter}
-        </div> -->
         <Box selected={ gridCursor.x == x && gridCursor.y == y } letter={gridSquare.letter} animationDelay={"col"+String(x)} color={gridSquare.color} bind:this={ boxes[y*5+x] }  />
       {/each}
     {/each}

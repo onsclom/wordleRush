@@ -2,7 +2,7 @@ import { Color, Animation } from "./types";
 import type Grid from "Grid.svelte";
 import { letterColors } from "./stores";
 
-enum GameState {
+export enum GameState {
   Waiting,
   Playing,
   Done,
@@ -25,56 +25,52 @@ export class GridSquare {
   }
 }
 
-class GameStats {
+export class GameStats {
   gameStartTime: number;
   gameEndTime: number;
-
-  guessedWords: number;
-  curRow: number;
-  score: number;
-
-  attemptedWords: string[];
-  guessHistory: GridSquare[][][];
-
-  constructor() {
-    this.guessedWords = 0;
-    this.curRow = 0;
-    this.score = 0;
-    this.attemptedWords = [];
-    this.guessHistory = [];
-  }
+  lossReason: string;
+  score: number = 0;
+  attemptedWords: string[] = [];
+  guessHistory: GridSquare[][][] = [];
 }
 
-export default class WrushleGame {
-  timestamp: number = new Date().getMilliseconds();
+class GameData {
+  gameStart: number = 0;
+  timestamp: number = new Date().getTime();
   dateString: string = new Date().toDateString();
   grid: GridSquare[][];
   gridCursor: Vector2 = { x: 0, y: 0 };
-  stats: GameStats;
+  stats: GameStats = new GameStats();
   gameState: GameState = GameState.Waiting;
   gridComponent: Grid;
   keyColors: { [letter: string]: Color } = {};
-
   wordNum: number = 1;
-  wordToGuess = "PASTA";
+  wordToGuess: string;
+}
+
+export default class WrushleGame {
+  
+  gameData: GameData = new GameData();
+
 
   constructor() {
     this.refreshGrid();
     this.refreshKeyColors();
+    this.generateNewWord();
   }
 
   handleInput(input: string) {
-    if (this.gameState == GameState.Done) return;
+    if (this.gameData.gameState == GameState.Done) return;
 
     // if not playing, then return
-    let gridCursor = this.gridCursor;
+    let gridCursor = this.gameData.gridCursor;
     if (input == "ENTER") {
       if (gridCursor.x == 5) this.evaluateWord();
     } else if (input == "←") {
       if (gridCursor.x > 0) {
         gridCursor.x -= 1;
-        this.grid[gridCursor.y][gridCursor.x].letter = "";
-        this.gridComponent.animation(
+        this.gameData.grid[gridCursor.y][gridCursor.x].letter = "";
+        this.gameData.gridComponent.animation(
           Animation.TextEnter,
           gridCursor.x,
           gridCursor.y
@@ -82,8 +78,8 @@ export default class WrushleGame {
       }
     } else {
       if (gridCursor.x < 5) {
-        this.grid[gridCursor.y][gridCursor.x].letter = input;
-        this.gridComponent.animation(
+        this.gameData.grid[gridCursor.y][gridCursor.x].letter = input;
+        this.gameData.gridComponent.animation(
           Animation.TextEnter,
           gridCursor.x,
           gridCursor.y
@@ -91,61 +87,71 @@ export default class WrushleGame {
         gridCursor.x += 1;
       }
     }
-    this.gridCursor = this.gridCursor;
+    this.gameData.gridCursor = this.gameData.gridCursor;
   }
 
   private getCurWord(): string {
-    return this.grid[this.gridCursor.y].map((square) => square.letter).join("");
+    return this.gameData.grid[this.gameData.gridCursor.y].map((square) => square.letter).join("");
   }
 
   gradeLine() {
     const curWord = this.getCurWord();
-    let remainingLetters: string[] = this.wordToGuess.split("");
+    let remainingLetters: string[] = this.gameData.wordToGuess.split("");
 
     let greenCount = 0;
 
     // do all greens first
     for (let x = 0; x < 5; x++) {
-      if (curWord[x] == this.wordToGuess[x]) {
-        this.grid[this.gridCursor.y][x].color = Color.Green;
-        this.keyColors[curWord[x]] = Color.Green;
+      if (curWord[x] == this.gameData.wordToGuess[x]) {
+        this.gameData.grid[this.gameData.gridCursor.y][x].color = Color.Green;
+        this.gameData.keyColors[curWord[x]] = Color.Green;
         greenCount += 1;
         remainingLetters.splice(remainingLetters.indexOf(curWord[x]), 1);
       }
     }
 
     for (let x = 0; x < 5; x++) {
-      if (this.grid[this.gridCursor.y][x].color == Color.Green)
+      if (this.gameData.grid[this.gameData.gridCursor.y][x].color == Color.Green)
         continue
       if (remainingLetters.includes(curWord[x])) {
-        this.grid[this.gridCursor.y][x].color = Color.Yellow;
-        if (this.keyColors[curWord[x]] == Color.Blank)
-          this.keyColors[curWord[x]] = Color.Yellow;
+        this.gameData.grid[this.gameData.gridCursor.y][x].color = Color.Yellow;
+        if (this.gameData.keyColors[curWord[x]] == Color.Blank)
+          this.gameData.keyColors[curWord[x]] = Color.Yellow;
         remainingLetters.splice(remainingLetters.indexOf(curWord[x]), 1);
       } else {
-        this.grid[this.gridCursor.y][x].color = Color.Black;
-        if (this.keyColors[curWord[x]] == Color.Blank)
-          this.keyColors[curWord[x]] = Color.Black;
+        this.gameData.grid[this.gameData.gridCursor.y][x].color = Color.Black;
+        if (this.gameData.keyColors[curWord[x]] == Color.Blank)
+          this.gameData.keyColors[curWord[x]] = Color.Black;
       }
     }
 
     if (greenCount == 5) {
-      this.wordNum += 1
+      this.gameData.wordNum += 1
+
+      this.gameData.stats.score += 5 - this.gameData.gridCursor.y
       // refresh game
       this.refreshGrid();
       this.refreshKeyColors();
       this.generateNewWord();
-      this.gridCursor.x = 0;
-      this.gridCursor.y = 0;
-      console.log(this.gridCursor);
-      this.gridComponent.animateAll(Animation.Enter);
+      this.gameData.gridCursor.x = 0;
+      this.gameData.gridCursor.y = 0;
+      console.log(this.gameData.gridCursor);
+      this.gameData.gridComponent.animateAll(Animation.Enter);
     } else {
-      this.gridComponent.animateRow(Animation.Enter, this.gridCursor.y);
-      this.gridCursor = { x: 0, y: this.gridCursor.y + 1 };
+      this.gameData.gridComponent.animateRow(Animation.Enter, this.gameData.gridCursor.y);
+      this.gameData.gridCursor = { x: 0, y: this.gameData.gridCursor.y + 1 };
     }
 
-    if (this.gridCursor.y == 6 && greenCount != 5) {
-      this.lose();
+    if (this.gameData.gridCursor.y == 6 && greenCount != 5) {
+      this.gameData.gameState = GameState.Done
+      this.gameData.stats.lossReason = "You guessed a word incorrectly!"
+    }
+
+    if (this.gameData.gameState == GameState.Waiting) {
+      // set game start time
+      this.gameData.gameStart = new Date().getTime() 
+
+      this.gameData.gameState = GameState.Playing
     }
   }
 
@@ -154,30 +160,29 @@ export default class WrushleGame {
   }
 
   refreshGrid() {
-    this.grid = [];
+    this.gameData.grid = [];
     for (let y = 0; y < 6; y++) {
       let gridRow = [];
       for (let x = 0; x < 5; x++) {
         gridRow.push(new GridSquare());
       }
-      this.grid.push(gridRow);
+      this.gameData.grid.push(gridRow);
     }
   }
 
   refreshKeyColors() {
     let letters: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    for (const letter of letters) this.keyColors[letter] = Color.Blank;
+    for (const letter of letters) this.gameData.keyColors[letter] = Color.Blank;
   }
 
   generateNewWord() {
-    let randNum = seededRandom(this.dateString + ` ${this.wordNum}`);
-    this.wordToGuess = finalWords[Math.floor(finalWords.length * randNum)].toUpperCase();
-    console.log(this)
+    let randNum = seededRandom(this.gameData.dateString + ` ${this.gameData.wordNum}`);
+    this.gameData.wordToGuess = finalWords[Math.floor(finalWords.length * randNum)].toUpperCase();
   }
 
   evaluateWord() {
-    console.log( `guessing ${this.wordToGuess}`)
-    let gridCursor = this.gridCursor;
+    console.log( `guessing ${this.gameData.wordToGuess}`)
+    let gridCursor = this.gameData.gridCursor;
     const curWord: string = this.getCurWord();
 
     if (isLegalWord(curWord)) {
@@ -187,8 +192,19 @@ export default class WrushleGame {
       // shake that grid part?
       console.log("ILLEGAL");
       //shakeRow( this.grid[gridCursor.y])
-      this.gridComponent.animateRow(Animation.Wiggle, gridCursor.y);
+      this.gameData.gridComponent.animateRow(Animation.Wiggle, gridCursor.y);
     }
+
+    this.saveGameState()
+    this.updateHistory()
+  }
+
+  updateHistory() { 
+    this.gameData.stats.guessHistory[ this.gameData.wordNum - 1 ] = this.gameData.grid
+  }
+
+  saveGameState() {
+    window.localStorage.setItem("game", JSON.stringify(this))
   }
 }
 

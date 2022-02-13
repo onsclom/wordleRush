@@ -25,7 +25,7 @@
       <li>The goal is to get a high score.</li>
       <li>After completing one word successfully, a new word is given.</li>
       <li>There is a 5 minute time limit.</li>
-      <li>+1 point is awarded for every correct letter guessed.</li>
+      <li>Upon guessing a word correctly, +1 point is awarded for every remaining guess.</li>
       <li>The game ends upon failing a word or time running out, whichever comes first.</li>
     </ul>
     <hr>
@@ -45,7 +45,7 @@
     width: 100%;
     height: 100%;
     background-color: var(--main-bg-color);
-    background-color: #ffffff88;
+    background-color: #ffffffcc;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
   }

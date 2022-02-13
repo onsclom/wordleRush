@@ -9,5 +9,6 @@ export enum Animation {
   None = "none",
   Wiggle = "wiggle",
   Enter = "enter",
-  TextEnter = "textEnter"
+  TextEnter = "textEnter",
+  ScoreUp = "scoreUp"
 }
