@@ -26,6 +26,7 @@ export class GridSquare {
 }
 
 export class GameStats {
+  lastWord: string;
   gameStartTime: number;
   gameEndTime: number;
   lossReason: string;
@@ -178,6 +179,7 @@ export default class WrushleGame {
   generateNewWord() {
     let randNum = seededRandom(this.gameData.dateString + ` ${this.gameData.wordNum}`);
     this.gameData.wordToGuess = finalWords[Math.floor(finalWords.length * randNum)].toUpperCase();
+    this.gameData.stats.lastWord = this.gameData.wordToGuess
   }
 
   evaluateWord() {

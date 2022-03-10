@@ -61,6 +61,8 @@
     <p><b>
       {stats.score} point{stats.score!=1?"s":""}
     </b></p>
+
+    <p>You ended on <b>{stats.lastWord}</b></p>
     
     <button on:click={copyForDiscord}>
       copy spoiler free for discord
